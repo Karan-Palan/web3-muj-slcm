@@ -1,14 +1,12 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import OCIDProvider from "../components/OCIDProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "EduKit 🔥 | Starter Kit 💻",
-  description:
-    "A starter kit for building (Dapps) on the Open Campus L3 (EduChain), powered by create-edu-dapp.",
+  title: "MUJ SLCM",
+  description: "SLCM portal implemented using Web-3.0 (Edu-chain)",
 };
 
 export default function RootLayout({
@@ -18,9 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <OCIDProvider>{children}</OCIDProvider>
-      </body>
+      <body className={inter.className}>{children}</body>
     </html>
   );
 }
