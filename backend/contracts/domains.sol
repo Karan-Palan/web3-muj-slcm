@@ -77,14 +77,35 @@ function register(string calldata name) public payable {
     _tokenIds.increment();
 }
 
-// 3. Implement core functions:
-//    - `price`: Calculate registration cost based on name length.
-//    - `register`: Mint a domain as an NFT with metadata and store ownership details.
-// 4. Add utility functions:
-//    - `getAllNames`: Return a list of all registered domains.
-//    - `valid`: Validate domain name length.
-//    - `getAddress`: Get the owner's address for a domain.
-// 5. Implement records management:
-//    - `setRecord`: Allow owners to set records for their domains.
-//    - `getRecord`: Retrieve domain-specific records.
-// 6. Add an owner-only function to withdraw contract funds.
+// Uility functions for validation and retrieving owner addresses.
+function valid(string calldata name) public pure returns (bool) {
+    return StringUtils.strlen(name) >= 3 && StringUtils.strlen(name) <= 10;
+}
+
+function getAddress(string calldata name) public view returns (address) {
+    return domains[name];
+}
+
+function getAllNames() public view returns (string[] memory) {
+    string[] memory allNames = new string[](_tokenIds.current());
+    for (uint256 i = 0; i < _tokenIds.current(); i++) {
+        allNames[i] = names[i];
+    }
+    return allNames;
+}
+
+// domain owners to set and retrieve records.
+function setRecord(string calldata name, string calldata record) public {
+    if (msg.sender != domains[name]) revert Unauthorized();
+    records[name] = record;
+}
+
+function getRecord(string calldata name) public view returns (string memory) {
+    return records[name];
+}
+
+function withdraw() public onlyOwner {
+    uint256 amount = address(this).balance;
+    (bool success, ) = msg.sender.call{value: amount}("");
+    require(success, "Failed to withdraw Matic");
+}
