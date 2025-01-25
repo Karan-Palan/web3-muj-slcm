@@ -22,10 +22,61 @@ constructor(string memory _tld)
 }
 
 }
-// 2. Define state variables:
-//    - Mappings for domain data (names, records, ownership).
-//    - SVG template parts for domain visualization.
-//    - Contract owner and TLD.
+mapping(uint256 => string) public names;
+mapping(string => string) public records;
+mapping(string => address) public domains;
+
+string public tld;
+string constant SVG_PART_ONE = '<svg xmlns="http://www.w3.org/2000/svg" ...>';
+string constant SVG_PART_TWO = '</text></svg>';
+
+modifier onlyOwner() {
+    require(isOwner());
+    _;
+}
+
+function isOwner() public view returns (bool) {
+    return msg.sender == owner;
+}
+
+function price(string calldata name) public pure returns (uint256) {
+    uint256 len = StringUtils.strlen(name);
+    require(len > 0);
+    if (len == 3) {
+        return 5 * 10**14; // 0.0005 MATIC
+    } else if (len == 4) {
+        return 3 * 10**14; // 0.0003 MATIC
+    } else {
+        return 1 * 10**14; // 0.0001 MATIC
+    }
+}
+
+function register(string calldata name) public payable {
+    if (domains[name] != address(0)) revert AlreadyRegistered();
+    if (!valid(name)) revert InvalidName(name);
+    require(msg.value >= price(name), "Not enough Matic paid");
+
+    string memory _name = string(abi.encodePacked(name, ".", tld));
+    string memory finalSvg = string(abi.encodePacked(SVG_PART_ONE, _name, SVG_PART_TWO));
+
+    uint256 newRecordId = _tokenIds.current();
+    string memory json = Base64.encode(
+        abi.encodePacked(
+            '{"name": "', _name, '", "description": "A Web3 domain for students of LPU", ',
+            '"image": "data:image/svg+xml;base64,', Base64.encode(bytes(finalSvg)), '"}'
+        )
+    );
+
+    string memory finalTokenUri = string(abi.encodePacked("data:application/json;base64,", json));
+
+    _safeMint(msg.sender, newRecordId);
+    _setTokenURI(newRecordId, finalTokenUri);
+
+    domains[name] = msg.sender;
+    names[newRecordId] = name;
+    _tokenIds.increment();
+}
+
 // 3. Implement core functions:
 //    - `price`: Calculate registration cost based on name length.
 //    - `register`: Mint a domain as an NFT with metadata and store ownership details.
