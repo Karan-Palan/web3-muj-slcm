@@ -1,6 +1,27 @@
 // TODO: Domains Contract Implementation
-// 1. Set up the contract and import necessary libraries:
-//    - Hardhat console , OpenZeppelin's ERC721URIStorage, Counters, and custom libraries (Base64, StringUtils).
+pragma solidity ^0.8.10;
+
+import "hardhat/console.sol";
+import "@openzeppelin/contracts/utils/Counters.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import {Base64} from "./libraries/Base64.sol";
+import {StringUtils} from "./libraries/StringUtils.sol";
+
+contract Domains is ERC721URIStorage {
+using Counters for Counters.Counter;
+Counters.Counter private _tokenIds;
+
+address payable public owner;
+
+constructor(string memory _tld)
+    payable
+    ERC721("MUJ Student Web3 Domain", "MSWD")
+{
+    owner = payable(msg.sender);
+    console.log("%s name service deployed", _tld);
+}
+
+}
 // 2. Define state variables:
 //    - Mappings for domain data (names, records, ownership).
 //    - SVG template parts for domain visualization.
