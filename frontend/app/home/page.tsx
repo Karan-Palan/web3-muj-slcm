@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import {useState} from "react";
+import { useState } from "react";
 import { SparklesCore } from "../components/sparkles";
 
 export default function LandingPage() {
@@ -111,7 +111,7 @@ export default function LandingPage() {
           />
         </div>
         <div className="flex flex-col items-center justify-center gap-4 relative z-20">
-          <h1 className="md:text-7xl text-3xl lg:text-9xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400">
+          <h1 className="cursor-default md:text-7xl text-3xl lg:text-9xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400">
             arcadia.slcm
           </h1>
           <p className="text-neutral-300 cursor-default text-center">
