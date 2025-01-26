@@ -1,10 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import React from "react";
+import {useState} from "react";
 import { SparklesCore } from "../components/sparkles";
 
 export default function LandingPage() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
     <div className="min-h-screen bg-black text-white items-center justify-center">
       <header className="w-full px-6 py-6 flex justify-between items-center bg-black shadow-md">
@@ -12,7 +13,8 @@ export default function LandingPage() {
           arcadia.slcm
         </h1>
         <nav>
-          <ul className="flex space-x-4">
+          {/* Desktop Menu */}
+          <ul className="hidden md:flex space-x-6">
             <li>
               <Link
                 href="/about"
@@ -38,7 +40,61 @@ export default function LandingPage() {
               </Link>
             </li>
           </ul>
+
+          {/* Hamburger Icon */}
+          <div
+            className="md:hidden flex items-center cursor-pointer"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            <div className="space-y-1">
+              <span className="block w-6 h-1 bg-gradient-to-r from-yellow-300 via-orange-400 to-red-500"></span>
+              <span className="block w-6 h-1 bg-gradient-to-r from-yellow-300 via-orange-400 to-red-500"></span>
+              <span className="block w-6 h-1 bg-gradient-to-r from-yellow-300 via-orange-400 to-red-500"></span>
+            </div>
+          </div>
         </nav>
+
+        {/* Mobile Menu */}
+        <div
+          className={`fixed top-0 right-0 h-full w-64 bg-black shadow-lg transform transition-transform ${isMenuOpen ? "translate-x-0" : "translate-x-full"
+            } md:hidden`}
+        >
+          <button
+            className="absolute top-4 right-4 text-white text-xl"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            &times;
+          </button>
+          <ul className="flex flex-col items-center mt-20 space-y-6">
+            <li>
+              <Link
+                href="/about"
+                className="text-lg text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-orange-400 to-red-500 hover:underline font-medium"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                About
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/features"
+                className="text-lg text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-orange-400 to-red-500 hover:underline font-medium"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Features
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/contact"
+                className="text-lg text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-orange-400 to-red-500 hover:underline font-medium"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Contact
+              </Link>
+            </li>
+          </ul>
+        </div>
       </header>
 
       <main className="relative w-full h-[45rem] flex flex-col items-center justify-center overflow-hidden rounded-md">
