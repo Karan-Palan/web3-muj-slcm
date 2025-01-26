@@ -8,7 +8,7 @@ However, the traditional Web2-based university student email systems fall short 
 
 To bridge this gap, we propose the development of a Web3 Domain Name Service (DNS) for Manipal University Jaipur (MUJ) students. This innovative platform will equip students with Web3-compatible domains under the university’s domain name, empowering them to securely receive, manage, and verify their NFT credentials.
 
-Additionally, the portal has been implemented as an official project under the university’s domain: [mujslcm.jaipur.manipal.edu](https://mujslcm.jaipur.manipal.edu). This platform not only enables Web3 domain management but also tracks student attendance, certificates, and other essential academic credentials, providing an all-in-one solution for students and faculty.
+Additionally, the portal is the web3 implementation of our portal: [mujslcm.jaipur.manipal.edu](https://mujslcm.jaipur.manipal.edu). This platform not only enables Web3 domain management but also tracks student attendance, certificates, and other essential academic credentials, providing an all-in-one solution for students and faculty.
 
 ---
 
